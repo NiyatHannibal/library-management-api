@@ -37,16 +37,8 @@ class Borrowing(Base):
     user_id = Column(Integer, ForeignKey(
         "users.id", ondelete="CASCADE"), nullable=False)
     borrowed_at = Column(TIMESTAMP(timezone=True),
-                         server_default=text('now()'))
-    returned_at = Column(DateTime, nullable=True)
-    due_date = Column(DateTime)
+                         server_default=text('now()'), nullable=False)
+    returned_at = Column(DateTime(timezone=True), nullable=True)
+    due_date = Column(DateTime(timezone=True), nullable=False)
     book = relationship("Book")
     user = relationship("User")
-
-    __table_args = (
-        UniqueConstraint(
-            "workspace_id",
-            "user_id",
-            name="uq_borrowing"
-        ),
-    )

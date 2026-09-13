@@ -23,8 +23,10 @@ class BookBase(BaseModel):
     isbn: str | None = None
     total_copies: int | None = None
 
+
 class BookCreate(BookBase):
     pass
+
 
 class BookResponse(BaseModel):
     id: int
@@ -41,7 +43,19 @@ class BookResponse(BaseModel):
 
 
 class BookCopiesUpdate(BaseModel):
-    copies: int 
+    copies: int
+
+
+class BorrowingResponse(BaseModel):
+    id: int
+    book_id: int
+    user_id: int
+    borrowed_at: datetime
+    due_date: datetime
+    returned_at: datetime | None
+
+    model_config = ConfigDict(from_attributes=True)
+
 
 class Token(BaseModel):
     access_token: str
