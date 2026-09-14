@@ -46,6 +46,10 @@ class BookCopiesUpdate(BaseModel):
     copies: int
 
 
+class BorrowingCreate(BaseModel):
+    book_id: int
+
+
 class BorrowingResponse(BaseModel):
     id: int
     book_id: int
