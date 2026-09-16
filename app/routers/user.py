@@ -1,6 +1,6 @@
 from fastapi import HTTPException, Depends, status, APIRouter
 from sqlalchemy.orm import Session
-from database import get_db
+from ..database import get_db
 from .. import models, schemas, outh2, utils
 
 router = APIRouter(
@@ -22,7 +22,7 @@ def verify_admin(
 
 
 @router.post("/register", response_model=schemas.UserResponse)
-def register(body=schemas.UserCreate, db: Session = Depends(get_db)):
+def register(body: schemas.UserCreate, db: Session = Depends(get_db)):
     body.password = utils.get_password_hash(body.password)
     user = models.User(**body.model_dump())
     db.add(user)
@@ -54,7 +54,7 @@ def get_user(user_id: int, db: Session = Depends(get_db), admin: models.User = D
 
 
 @router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
-def get_user(user_id: int, db: Session = Depends(get_db), admin: models.User = Depends(verify_admin)):
+def delete_user(user_id: int, db: Session = Depends(get_db), admin: models.User = Depends(verify_admin)):
     user = db.query(models.User).filter(models.User.id == user_id).first()
     if user is None:
         raise HTTPException(

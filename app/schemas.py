@@ -19,9 +19,9 @@ class UserResponse(BaseModel):
 
 class BookBase(BaseModel):
     title: str
-    author: str | None = None
+    author: str
     isbn: str | None = None
-    total_copies: int | None = None
+    total_copies: int
 
 
 class BookCreate(BookBase):
@@ -31,10 +31,10 @@ class BookCreate(BookBase):
 class BookResponse(BaseModel):
     id: int
     title: str
-    author: str | None
+    author: str
     isbn: int | None
-    total_copies: int | None
-    available_copies: int | None
+    total_copies: int
+    available_copies: int
     is_active: bool
     created_at: datetime
     updated_at: datetime
@@ -68,4 +68,3 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     id: int
-    role: str

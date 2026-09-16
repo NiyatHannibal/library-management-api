@@ -9,7 +9,7 @@ class User(Base):
     username = Column(String, nullable=False, unique=True)
     email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
-    role = Column(String, nullable=False)
+    role = Column(String, nullable=False, default="member")
     is_active = Column(Boolean, nullable=False, default=True)
     created_at = Column(TIMESTAMP(timezone=True), server_default=text('now()'))
 
@@ -18,7 +18,7 @@ class Book(Base):
     __tablename__ = "books"
     id = Column(Integer, primary_key=True, nullable=False)
     title = Column(String, nullable=False)
-    author = Column(String, nullable=True)
+    author = Column(String, nullable=False)
     isbn = Column(String, nullable=True)
     total_copies = Column(Integer, nullable=False)
     available_copies = Column(Integer, nullable=False, default=total_copies)
