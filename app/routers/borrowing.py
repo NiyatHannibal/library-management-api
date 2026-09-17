@@ -1,6 +1,6 @@
 from fastapi import HTTPException, status, Depends, APIRouter
 from sqlalchemy.orm import Session
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from .. import models, database, schemas, outh2
 router = APIRouter(
     prefix="/borrowings",
@@ -41,9 +41,13 @@ def create_borrowing(body: schemas.BorrowingCreate, db: Session = Depends(databa
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail="You have already borrowed this book. Return it before borrowing it again.")
 
+    borrowed_at = datetime.now(timezone.utc)
+    due_date = borrowed_at + timedelta(days=14)
+
     borrowing = models.Borrowing(
         book_id=body.book_id,
         user_id=current_user.id,
+        due_date=due_date
     )
 
     book.available_copies -= 1
